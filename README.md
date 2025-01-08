@@ -103,6 +103,37 @@ It does nothing yet except showing the current temperature. To enable that the c
 When a change happens it incokes the python script as an action.
 
 
+alias: Heatmpump Management
+description: >-
+  Managing the heatpump  
+triggers:
+  - trigger: state
+    entity_id:
+      - climate.woonkamer
+    attribute: temperature
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 5
+    id: Temperature changed via Thermostat
+conditions: []
+actions:
+  - if:
+      - condition: trigger
+        id:
+          - Temperature changed via Thermostat
+    then:
+      - action: pyscript.eplucon_set_value
+        data:
+          username: username@domain.com
+          password: password
+          command: indoor_temperature
+          value: "{{ state_attr('climate.woonkamer','temperature') | float(18.0) }}"
+          module_index: x1a11b1234bc987f0123a1e1a2ab1d89
+        enabled: true
+mode: single
+
+
 
 
 15. 
