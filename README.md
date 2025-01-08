@@ -69,24 +69,41 @@ Just wait for a couple of seconds and some rows will appear in the list. The str
 
 7. Now you can go to he developer tools and using all the informaiton to actually change a setting of the Heatpump
 Fill in the loginname, password, and module_index. And lets use the command to change the indoor_temperature to a value.
-Press the perfom Action, if all is OK it will become green and in the Response is stated that everything went OK.
+Press the perfom Action, if all is OK the button wil show green and in the Response is stated that everything went OK.
 
-After a while you must see in the Eplucon Website or the app that the temperature has been set to the selected value.
+![image](https://github.com/user-attachments/assets/fe51e2a4-5eec-4851-9d1f-e4c8eb8d6ac2)
 
-Congratulations. Now you have control on the heatpump for Home Assistant and can use it in automations or on you dahsboard.
+After a short while you should see the temperature also updated in the Eplucon Website or the App to the selected value.
 
-9. Create a thermostat.
-I've created a thermostat so i can control it as i can control the temperature in my other rooms
+Congratulations. Now you have control on the heatpump from Home Assistant and can use it in automations and your dashboards.
+
+9. Create a thermostat (if needed)
+I've created a thermostat so i can control it in the same way as a can control the temperature in all my other rooms. Also because the thermostat can be exposed in standard way to Google Home.
+
+![image](https://github.com/user-attachments/assets/67cc7db6-d6f4-4d32-b8fb-2c7fad17db83)
+
+In Home Assistant you can create a generic thermostat which requires a sensor measuring the temperature and a switch to controlsomething to set it on or off
+The latter we will not use and therefore just create a dummy switch as a helper. the sesnsor measuring the temperature can be the indoor_temperature from the Ecofores integration.
+
+So just create a helper defining an input_boolean and use that one in the thermostat listed below. 
+
+climate:
+  - platform: generic_thermostat
+    name: Woonkamer
+    unique_id: 519d7b14-965c-48e3-b877-d47371bf5a14
+    heater: input_boolean.dummy_thermostat_switch
+    target_sensor: sensor.indoor_temperature
+    min_temp: 18
+    max_temp: 30
+    target_temp_step: 0.1
+    initial_hvac_mode: "heat"
+    ac_mode: false
+
+It does nothing yet except showing the current temperature. To enable that the confgured temperatue is passed to the heatpump an automation is needed listening to state changes of this thermostat.
+When a change happens it incokes the python script as an action.
 
 
 
-
-11. 
-
-12. 
-13. 
-
-14. 
 
 15. 
 
@@ -108,8 +125,7 @@ I've created a thermostat so i can control it as i can control the temperature i
 
 
 
-The python script is depe
-
+I have some jokers as friends which where settin the temperature to a high. So my automation limits this and put it to a lower automatically.
 
 
 
