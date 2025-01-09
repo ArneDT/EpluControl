@@ -3,13 +3,20 @@ Control Heatpump via pythonscript (re)using capabilities of the Eplucon website
 
 Hello,
 
-I am a big fan of using Home Assistant and was quite disappointed about the integration possibilities with the Ecoforest Heatpump which I own.
-Of course you can say you should have thought about it before and i did as I asked for it during the sales which confirmed that there were possibilities to integrate for example with Google.
-In the end yes there was the possiblities for the room controllers, but not the main controller Th-Touch which is controlling the heatpump.
+I am a big fan of using Home Assistant and was quite disappointed about the possibilities to integrate the Ecoforest Heatpump which I own.
+Of course you can say you should have thought about it before buying it. And during the procurement I did aks for the possiblities, it was told that you could control temperature with for example Google. In the end yes there was the possiblities for the room controllers to integrate, but sadly not the main controller "Th-Touch" which is actually controlling the heatpump.
 
-The app and the website as offered by the provider could be used and that was it. So not fully integrated within my home automation ans alwaays in the need to use another app as well. 
-There were two solutions (1) adding an additional card in the pump yourself to read and control it locally using modbus etc or (2) scrape it on the site. I did not want to open the heatpump while there is guarantee.
-So i choose for the sofware solution and yes it is cloudbase and depending on having a connection, and has some delay. But i did not mind this and also wanted to see it i can get it working using scapring.
+The app and the website as offered by the provider could be used to set it remotely and that is it. So not fully integrated within my home automation and always in the need to use another app as well and no oppportunity to do some automations. It should be possible.
+
+There were two solutions (1) adding an additional card in the pump yourself to read and control it locally using modbus etc. or (2) scrape it from the site. For now I did not want to open the heatpump and add an additional card to prevent any guarantee issues. I just want to stay away from any possible discussion about it in case of a mallfunction. Sadly the th-touch controller connected to the heatpump does not provide something to connect to from Home Assistant even not reading and while it is sending all data from the heatpump to the service provider. I have thought about something to intercept the traffic between the th-touch. But in the end i experimented with seeing what requests are being sent from the website to read and updata data. I was in the believe that it should be possible to replay it with some creativity and all the tools which are available around Home Assisant. I take the not local controlling and depency on having an connection with the cloud for granted.
+
+The solution i have is now us assuming that you have
+1 an account on the eplucon website and you are able to control your heatpump
+2 are able to read some sensors from your heatpump using the Ecoforest integration from Koen Hendriks (https://github.com/koenhendriks/ha-eplucon) or using your own implementation of using the API provided by Eplucon (https://portaal.eplucon.nl/docs/api)
+
+
+
+
 
 Started with scraping the eplucon site - using the nice multiscrape integration - to read information and present it in Home Assistant which enable to ask Google about the current temperature and if the heating was on.
 Luckily they provided later themselves an API providing the actual informaiton in a more structured way. However there was and is still no possbility to change for example the temperature or the mode of the heatpump except using the app or the website.
