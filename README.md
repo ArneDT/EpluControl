@@ -6,50 +6,43 @@ Hello,
 I am a big fan of using Home Assistant and was quite disappointed about the possibilities to integrate the Ecoforest Heatpump which I own.
 Of course you can say you should have thought about it before buying it. And during the procurement I did aks for the possiblities, it was told that you could control temperature with for example Google. In the end yes there was the possiblities for the room controllers to integrate, but sadly not the main controller "Th-Touch" which is actually controlling the heatpump.
 
-The app and the website as offered by the provider could be used to set it remotely and that is it. So not fully integrated within my home automation and always in the need to use another app as well and no oppportunity to do some automations. It should be possible.
+First I started with scraping the eplucon website - using the nice multiscrape integration - to read information and present it in Home Assistant which enable to ask Google about the current temperature and if the heating was on. I had all sensors and found which html elements where representing the values. Luckily they provided later the API providing the actual information of the heatpump in structured way. So this was a big improvement and more stable as I experienced in the beginning some changes on the website and then I could try to find again the html elements. However there was and is still no possbility to control for example the temperature or the mode of the heatpump using the API. I asked for it but without any reaction.
 
-There were two solutions (1) adding an additional card in the pump yourself to read and control it locally using modbus etc. or (2) scrape it from the site. For now I did not want to open the heatpump and add an additional card to prevent any guarantee issues. I just want to stay away from any possible discussion about it in case of a mallfunction. Sadly the th-touch controller connected to the heatpump does not provide something to connect to from Home Assistant even not reading and while it is sending all data from the heatpump to the service provider. I have thought about something to intercept the traffic between the th-touch. But in the end i experimented with seeing what requests are being sent from the website to read and updata data. I was in the believe that it should be possible to replay it with some creativity and all the tools which are available around Home Assisant. I take the not local controlling and depency on having an connection with the cloud for granted.
+The app and the website as offered by the provider could be used to control and that is it. So not fully integrated within my home automation and always in the need to use another app as well without opportunity to do some automations. It should be possible!!!
 
-The solution i have is now us assuming that you have
-1 an account on the eplucon website and you are able to control your heatpump
-2 are able to read some sensors from your heatpump using the Ecoforest integration from Koen Hendriks (https://github.com/koenhendriks/ha-eplucon) or using your own implementation of using the API provided by Eplucon (https://portaal.eplucon.nl/docs/api)
+I looked around and identified two possible solutions (1) adding an additional card in the pump yourself to read and control it locally using modbus etc. or (2) scrape it from the site. For now I did not want to open the heatpump and add an additional card to prevent any guarantee issues. I just want to stay away from any possible discussion about it in case of a mallfunction. 
 
+Sadly the th-touch controller connected to the heatpump does not provide capabilities to connect locally from Home Assistant. Even not for reading while it is sending all data from the heatpump to the service provider. I have thought about something to intercept the traffic between the th-touch. However in the end i choose to experiment with seeing what requests are being sent from the website to read and update data of the heatpump. I was in the believe that it should be possible to replay this with some creativity and tools which are currently available. I accept that it is not local and the dependency on having an connection with the cloud.
 
+The solution i have is now us assuming that you have (1) an account on the eplucon website and you're able to control your heatpump and (2) you are allready abl to read data and have sensors witin Home Assistant. You need to have the indoor temperature at least. You can use the Ecoforest integration from Koen Hendriks (https://github.com/koenhendriks/ha-eplucon) or using your own implementation of invoking the API as provided by Eplucon (https://portaal.eplucon.nl/docs/api). You can use te multiscrape or rest integration to invoke the API. I am still my own invocation of the API as the Ecoforest integration was not available and it have some issues. Also i wanter to be able to pause it as the API has a service window which then provides a 0 for a minute or 15 which makes the diagrams unreadable.
 
+So now i could read the data in a nice structured way. The next idea, make an integration for it, however Koen Hendriks allready started this (https://github.com/koenhendriks/ha-eplucon) so no need to work on that. However i still wanted to be able to control the temperature from my Hom Assistant.
 
+Why? Just because it can and should be possible without the use of multiple apps/websites. Also I experienced that the heatpump finished heating the house in the morning just before waking up. When waking up the flow was allready a bit cooling down. I just wanted to the delay the moment that is starts heating during the night so it is still running when waking up and the floor is still nice comfortly warm. But now i also now i can use it when i have my home in holiday mode, it lowers the temperature, and start heating before coming home. It turns down the production for heating the boiler.
 
-Started with scraping the eplucon site - using the nice multiscrape integration - to read information and present it in Home Assistant which enable to ask Google about the current temperature and if the heating was on.
-Luckily they provided later themselves an API providing the actual informaiton in a more structured way. However there was and is still no possbility to change for example the temperature or the mode of the heatpump except using the app or the website.
+Using the developet tools from the brower i experiemented to see what is sent/received when logging into the website and changing the things on the heatpump. Then I created a Python script to reproduce the steps and could control the heatpump. By having it in a script it could be used within automations in Home Assistant. It is the first attemmpt and there is still plenty room for improvement, however for me currently it does the job for now. Lets hope that they do not change the implemntation to frequently. As mentione before i experiences some changes in the past 18 months when the overhauled the website.
 
-So now i could read the data in a nice structured way. I had the idea to make it as an integration for home Assistant, however Koen Hendriks allready started this (https://github.com/koenhendriks/ha-eplucon) so no need to work on that.
-However i still wanted to be able to control the temperature from my Hom Assistant. Why? Well i discoved that the heatpump started heating in the night and finished in the morning. I just wanted to the delay the moment that is starts heating during the night so it is still running when waking up the floor is still nice comfortly warm
-But also when putting the house in holiday mode that the alarm goes on, the temperature is decreased and will be increased a day or two before coming home, including the boiler. 
-
-I used the developer tools from the browser to see what is sent/received when logging into the website and you change some settings. Using python script i was able to reproduce the stepts and could control the heatpump. By having it in a script it could be used within automations in Home Assistant.
-It is the first attemmpt and there is plenty room for improvement, however it does the job for now.
-
-Lets hope that they do not change it to frequently and every time need to change the equests in the script. I experienced it in the past 18 months when the overhauled the site a couple of times and the scrapting did then not work to read anymore. Luckilty they provide an api now for reading. And for setting they use themselves some ajax/json methods. To bad those are not endpoints as part of ther API.
-
-I have choosen to write it in Python however you need to have he Puscript Python scriping integration (https://github.com/custom-components/pyscript) installed in Home Assistant. In that way you could use the script as an action within an automation and no not to start a shell session. So the script does not run in a bash session as it also used some HA specific calls to log and provide parameters.
+Altough the script is written in Python is is pending on the Pyscript Python scripting integration (https://github.com/custom-components/pyscript) to be installed in Home Assistant. In that way you could use the script as an action within an automation and not have to start a bash session. Also it enables some opportunities to write to the log of Home Assisant and provide response to the automations in Home Assistant. So the script does not run in a bash session on its own.
 
 1. Install Pyscript
 See https://github.com/custom-components/pyscript. After installation it should be available as an integration.
 
 ![image](https://github.com/user-attachments/assets/67ed64f6-82cc-40a9-a910-211a14eefe08)
 
-2. Place the python file in the pyscript folder created in the previous step
-You can use an SSH, of Samba integration or jus create the file in Studio Code server and cope paste the code into that file.
+2. Place the script in the pyscript folder
+You can use SSH, Samba integration or just create the file via Studio Code server integration and copy/paste the code into that file.
 
 ![image](https://github.com/user-attachments/assets/77a20283-870f-4645-9262-793df895cb6e)
 
 3. Go to Developer Tools in Home Assistant
+
 If all went OK the script is available as an action within Home Assisstant and can be used accordingly in automations etc.
 
 ![image](https://github.com/user-attachments/assets/37ef6b16-1a98-49f3-9d7d-aff8b54f9dc9)
 
-When selecting the action it shows which parameters are expected. Sadly i could not find a easy way to add username, password and index as secret in YAML. So for now it expects it as parameters. Of course you can add them as default in the python script.
+When selecting the action in the Developer Tools it shows which parameters are expected. Sadly i could not find a easy way to add username, password and index as a secret in YAML. So for now it expected as parameters. Of course you can add them as default in the python script. Or define helpers in Home Assistant and use them in your automations.
 
-To be able to run the script and control your heatpump you need to use the account which you use to login on the eplucon site and the module_index referring to the heatpump. 
+To be able to run the script and control your heatpump you need to use the same account which you use to login on the eplucon site and also know the module_index referring to the heatpump. 
 
 ![image](https://github.com/user-attachments/assets/3a53d9fb-4dde-4471-995b-3c66d8d9ccc9)
 
