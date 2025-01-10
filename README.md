@@ -189,8 +189,8 @@ Above i described the road which i took to be able to control and integrate my h
 + Cleaner code as i am not a python expert
 
 # Disclaimer
-I created this to enable a customer journey using one app/website which is is my Home Assistant. Also it enables automations and make smarter use of the heatpump in the house which may create more comfort and save energy as well. For me it works now. 
+I created this to enable a customer journey using one app/website which is is my Home Assistant. Also it enables automations and make smarter use of the heatpump in my house improving comfort and may save energy as well. For me it works now. 
 
-Sharing this i do to help other having the same possiblitiy, it is without warranty and it is your own responsibilty to prevent idling your heatpump which may the result when you increase/decrease temperature in automations in short periods.
+Sharing this I do to help other having the same possiblitiy, it is without warranty and it is your own responsibilty to prevent idling your heatpump which may the result when you increase/decrease temperature in automations in short periods.
 
 Have fun with it and if you have improvements for the script or ideas how to share it and improve te script.
