@@ -1,10 +1,8 @@
-# EpluconControl
+# EpluconControl (your heatpump)
 Control Heatpump via pythonscript (re)using capabilities of the Eplucon website
 
-Hello,
-
-I am a big fan of using Home Assistant and was quite disappointed about the possibilities to integrate the Ecoforest Heatpump which I own.
-Of course you can say you should have thought about it before buying it. And during the procurement I did aks for the possiblities, it was told that you could control temperature with for example Google. In the end yes there was the possiblities for the room controllers to integrate, but sadly not the main controller "Th-Touch" which is actually controlling the heatpump.
+I am a big fan of using Home Assistant and was quite disappointed about the possibilities to integrate the Ecoforest Heatpump which I own. It is the provider to blame, not Home Assistant.
+Of course you can say you should have thought about it before buying it. And during the procurement I did ask for the possiblities, it was told that you could control temperature with for example Google. In the end yes there was a possiblitie to integrate the room controllers to integrate, but sadly not the main controller "Th-Touch" which is actually controlling the heatpump.
 
 First I started with scraping the eplucon website - using the nice multiscrape integration - to read information and present it in Home Assistant which enable to ask Google about the current temperature and if the heating was on. I had all sensors and found which html elements where representing the values. Luckily they provided later the API providing the actual information of the heatpump in structured way. So this was a big improvement and more stable as I experienced in the beginning some changes on the website and then I could try to find again the html elements. However there was and is still no possbility to control for example the temperature or the mode of the heatpump using the API. I asked for it but without any reaction.
 
@@ -14,7 +12,7 @@ I looked around and identified two possible solutions (1) adding an additional c
 
 Sadly the th-touch controller connected to the heatpump does not provide capabilities to connect locally from Home Assistant. Even not for reading while it is sending all data from the heatpump to the service provider. I have thought about something to intercept the traffic between the th-touch. However in the end i choose to experiment with seeing what requests are being sent from the website to read and update data of the heatpump. I was in the believe that it should be possible to replay this with some creativity and tools which are currently available. I accept that it is not local and the dependency on having an connection with the cloud.
 
-The solution i have is now us assuming that you have (1) an account on the eplucon website and you're able to control your heatpump and (2) you are allready abl to read data and have sensors witin Home Assistant. You need to have the indoor temperature at least. You can use the Ecoforest integration from Koen Hendriks (https://github.com/koenhendriks/ha-eplucon) or using your own implementation of invoking the API as provided by Eplucon (https://portaal.eplucon.nl/docs/api). You can use te multiscrape or rest integration to invoke the API. I am still my own invocation of the API as the Ecoforest integration was not available and it have some issues. Also i wanter to be able to pause it as the API has a service window which then provides a 0 for a minute or 15 which makes the diagrams unreadable.
+The solution i have is now us assuming that you have (1) an account on the eplucon website and you're able to control your heatpump and (2) you are allready abl to read data and have sensors witin Home Assistant. You need to have the indoor temperature and the configured indoor temperature at least. You can use the Ecoforest integration from Koen Hendriks (https://github.com/koenhendriks/ha-eplucon) or using your own implementation of invoking the API as provided by Eplucon (https://portaal.eplucon.nl/docs/api). You can use te multiscrape or rest integration to invoke the API. I am still my own invocation of the API as the Ecoforest integration was not available and it have some issues. Also i wanter to be able to pause it as the API has a service window which then provides a 0 for a minute or 15 which makes the diagrams unreadable.
 
 So now i could read the data in a nice structured way. The next idea, make an integration for it, however Koen Hendriks allready started this (https://github.com/koenhendriks/ha-eplucon) so no need to work on that. However i still wanted to be able to control the temperature from my Hom Assistant.
 
@@ -47,50 +45,50 @@ To be able to run the script and control your heatpump you need to use the same 
 ![image](https://github.com/user-attachments/assets/3a53d9fb-4dde-4471-995b-3c66d8d9ccc9)
 
 5. Determine the module_index of the heatpump
-The quickest way is to open the Developer Tools (F12 in Edge) and look which requests are sent from the website when the Warmtepomp is selected
+The quickest way is to open the Developer Tools (F12 in Edge) and have a look which requests are sent from the website when the Warmtepomp is selected
 
-Login the Eplucon Site
-Select Heatpump/Warmtepomp in the menu
+Login the Eplucon Site and select Heatpump/Warmtepomp in the menu. Something like below should be shown.
 
 ![image](https://github.com/user-attachments/assets/9ab5c8b8-872d-4186-942c-a6e47b348baf)
 
-Open the Developer Tools using F12 and click on the OpenDev button. 
-Select the Network Tab which will show the requests sent from the page to the webserver from Eplucon.
+Open the Developer Tools using F12 and click on the OpenDev button to continue. 
+Select the Network Tab which will show the requests sent from this page to the webserver. 
 
 ![image](https://github.com/user-attachments/assets/a2ba6fdb-0733-4d5d-a2d3-d6625a8a5265)
 
-Make sure that the networkconsole is opened and active (a red circle should be shown) in the Developer Tools to see which requests are sent.
+Make sure that the networkconsole is opened and active (a red circle in the toplef should be shown) in the Developer Tools to see which requests are sent.
 
 ![image](https://github.com/user-attachments/assets/75e82242-47a9-4539-a9f0-d49bb05cbc09)
 
-Just wait for a couple of seconds and some rows will appear in the list. The string after the = you should copy ans past it as the module_index
+Just wait for a couple of seconds and some rows will appear in the list. The string after the = is the value to use as module_index
 
 ![image](https://github.com/user-attachments/assets/fbb1bb7a-beca-4b86-a1ac-63d86d83aa0e)
 
-7. Now you can go to he developer tools and using all the informaiton to actually change a setting of the Heatpump
-Fill in the loginname, password, and module_index. And lets use the command to change the indoor_temperature to a value.
-Press the perfom Action, if all is OK the button wil show green and in the Response is stated that everything went OK.
+7. Now you can go to he developer tools using all the informaiton to actually change a setting of the heatpump
+Fill in the loginname, password, and module_index. And lets use the command "indoor_temperature" to change the temperature to s selected value.
+Press the perfom Action, when all is OK the button wil flash green and in the Response is stated that everything went OK.
 
 ![image](https://github.com/user-attachments/assets/fe51e2a4-5eec-4851-9d1f-e4c8eb8d6ac2)
 
 After a short while you should see the temperature also updated in the Eplucon Website or the App to the selected value.
 
-Congratulations. Now you have control on the heatpump from Home Assistant and can use it in automations and your dashboards.
+Congratulations. Now the heatpump can be controlled from Home Assistant ans used in automations and dashboards.
 
 9. Create a thermostat (if needed)
-I've created a thermostat so i can control it in the same way as a can control the temperature in all my other rooms. Also because the thermostat can be exposed in standard way to Google Home.
+I've created a thermostat so i can control it in the same way as a can control the temperature in all my other rooms. Also because when it is defined as a thermostat it can be easier exposed to Google Home. I now can ask what is the temperature, but also say to increase or decrease.
 
 ![image](https://github.com/user-attachments/assets/67cc7db6-d6f4-4d32-b8fb-2c7fad17db83)
 
-In Home Assistant you can create a generic thermostat which requires a sensor measuring the temperature and a switch to controlsomething to set it on or off
-The latter we will not use and therefore just create a dummy switch as a helper. the sesnsor measuring the temperature can be the indoor_temperature from the Ecofores integration.
+In Home Assistant you can create a generic thermostat which requires a sensor measuring the temperature and a switch to control the device to turn it on or off. 
+The latter we will not use and therefore just create a dummy switch as a helper.  The sensor is used to show the current temperature and can be the indoor_temperature from the Ecoforest integration or in my case my own sensor. 
 
-So just create a helper defining an input_boolean and use that one in the thermostat listed below. 
+So just create a helper defining an input_boolean, give it a name (dummy_thermostat_switch) and use that one in the thermostat yaml as listed below. You can create your unique_id which enables heat some thinkgs can be changed fom Home Assistant.
 
+```
 climate:
   - platform: generic_thermostat
     name: Woonkamer
-    unique_id: 519d7b14-965c-48e3-b877-d47371bf5a14
+    unique_id: 328e6af41-123a-12b3-a123-b12345bf1b11
     heater: input_boolean.dummy_thermostat_switch
     target_sensor: sensor.indoor_temperature
     min_temp: 18
@@ -98,14 +96,14 @@ climate:
     target_temp_step: 0.1
     initial_hvac_mode: "heat"
     ac_mode: false
+```
 
-It does nothing yet except showing the current temperature. To enable that the confgured temperatue is passed to the heatpump an automation is needed listening to state changes of this thermostat.
-When a change happens it incokes the python script as an action.
+If you restart you have a thermostat which you can show on a dashboard showing the actual, also the temperature can be changed on the thermostat. However nothing will hapen. Well it wil turn on/off the switch, but that is dummy. To enable that the configured temperature is passed to the heatpump an automation is needed listening to state changes of the thermostat. In that automation the action is defined to invoke the python script as an action and sent the temperature as set in the thermostat.
 
+```
 
-alias: Heatmpump Management
-description: >-
-  Managing the heatpump  
+alias: Controlling the Heatpump
+description: Controlling the heatpump.
 triggers:
   - trigger: state
     entity_id:
@@ -115,62 +113,38 @@ triggers:
       hours: 0
       minutes: 0
       seconds: 5
-    id: Temperature changed via Thermostat
+    id: Temeperature set via thermostat in HA
+  - trigger: state
+    entity_id:
+      - sensor.ecoforest_ingestelde_binnen_temperatuur
+    id: Temperature set via Eplucon website or App
 conditions: []
 actions:
   - if:
       - condition: trigger
         id:
-          - Temperature changed via Thermostat
+          - Temeperature set via thermostat in HA
     then:
       - action: pyscript.eplucon_set_value
         data:
-          username: username@domain.com
+          uusername: username@domain.com
           password: password
           command: indoor_temperature
           value: "{{ state_attr('climate.woonkamer','temperature') | float(18.0) }}"
           module_index: x1a11b1234bc987f0123a1e1a2ab1d89
         enabled: true
+    alias: Sent command to heatpump
+  - if:
+      - condition: trigger
+        id:
+          - Temperature set via Eplucon website or App
+    then:
+      - action: climate.set_temperature
+        metadata: {}
+        data:
+          temperature: "{{ states('sensor.configured_indoor_temperature')  }}"
+        target:
+          entity_id: climate.woonkamer
+    alias: Update thermostat (change from external)
 mode: single
-
-
-
-
-15. 
-
-
-
-16. Determine your module_index of the heatpump (using the API or logging in and use the developertool of the browser
-17. Create a thermostaty
-18. Publish the thermostat for exmapl to google.
-19. Do some automations as needed
-
-
-
-![image](https://github.com/user-attachments/assets/3c2c0cff-e981-4d55-afad-04594f2ea0dd)
-
-
-
-
-
-
-
-
-I have some jokers as friends which where settin the temperature to a high. So my automation limits this and put it to a lower automatically.
-
-
-
-
-
-
-I put this in some python script which than can be invoked from within Home Assistant. 
-
-
-
-
-
-
- 
-
-
-
+```
