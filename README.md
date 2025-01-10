@@ -186,7 +186,7 @@ Above i described the road which i took to be able to control the heatpump from 
 + Better validation on input and the supported domains
 + Better checking on exceptions and results from the requests to the webserver
 + Having it as a native integration (combined with the reading)
-+ Adding the other attributes (currently focused on the ones which I need)
++ Adding the other commands (currently focused on the ones which I need)
 + Cleaner code as i am not a python expert. I did it with some youtube and google.
 
 # Disclaimer
