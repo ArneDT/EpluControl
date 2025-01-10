@@ -1,6 +1,8 @@
 # EpluconControl (your heatpump)
 Control Heatpump via pythonscript (re)using capabilities of the Eplucon website
 
+## Background and Introduction
+
 I am a big fan of using Home Assistant and was quite disappointed about the possibilities to integrate the Ecoforest Heatpump which I own. It is the provider to blame, not Home Assistant.
 Of course you can say you should have thought about it before buying it. And during the procurement I did ask for the possiblities, it was told that you could control temperature with for example Google. In the end yes there was a possiblity to integrate the room controllers, but sadly not the main controller "Th-Touch" which is actually controlling the heatpump.
 
@@ -22,7 +24,20 @@ Using the developer tools from the brower i experimented to see what is sent/rec
 
 Altough the script is written in Python is is pending on the Pyscript Python scripting integration (https://github.com/custom-components/pyscript) to be installed in Home Assistant. In that way you could use the script as an action within an automation and not have to start a bash session. Also it enables some opportunities to write to the log of Home Assisant and provide response to the automations in Home Assistant. So the script does not run in a bash session on its own.
 
-# What can be controller
+# What can be controlled currently
+
++ "indoor_temperature", the indoor temperature to achieve
++ "boiler_temperature", the max temperature of domestic water in the boiler
++ "boiler_temperature_delta", the delta which determines when the production of domestic water starts
++ "warm_water_active", turn on/off the production of warm water
++ "heatpump_mode", in which mode the heatpump is like cooling or heating
++ "heatpump_operation", in which operation mode the heatpump is like off, 
++ "heating_active", turn on/off heating the home
++ "stop_heating_above", the max temperature when heating is done
++ "heating_curve_correction", adjustment of the heat curve
++ "cooling_active": turn on/off cooling
++ "stop_passive_cooling_below": set the temperature when passing cooling stops
++ "stop_active_cooling_below" set the temperature when active cooling stops
 
 
 # Get it running
@@ -120,7 +135,7 @@ triggers:
     id: Temeperature set via thermostat in HA
   - trigger: state
     entity_id:
-      - sensor.ecoforest_ingestelde_binnen_temperatuur
+      - sensor.configured_indoor_temperature
     id: Temperature set via Eplucon website or App
 conditions: []
 actions:
@@ -152,3 +167,9 @@ actions:
     alias: Update thermostat (change from external)
 mode: single
 ```
+# Ideas from improvements
++ Better validation on input and the supported domains
++ Better checking on exception and results from the requests to the webserver
++ Having it as a native integration
++ Adding the other attributes (currently focused on the one which i need and i do not have active cooling and a geothermic heatpump)
++ Cleaner code as i am not a python expert
