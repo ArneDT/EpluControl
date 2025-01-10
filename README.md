@@ -107,7 +107,7 @@ I've created a thermostat so i can control it in the same way as a can control t
 In Home Assistant you can create a generic thermostat which requires a sensor measuring the temperature and a switch to control the device to turn it on or off. 
 The latter we will not use and therefore just create a dummy switch as a helper.  The sensor is used to show the current temperature and can be the indoor_temperature from the Ecoforest integration or in my case my own sensor. 
 
-So just create a helper defining an input_boolean, give it a name (dummy_thermostat_switch) and use that one in the thermostat yaml as listed below. You can create your unique_id which enables heat some thinkgs can be changed fom Home Assistant.
+So just create a helper defining an input_boolean, give it a name (dummy_thermostat_switch) and use that one in the thermostat yaml as listed below. You can create your unique_id which enables that some things can be changed from Home Assistant UI.
 
 ```
 climate:
