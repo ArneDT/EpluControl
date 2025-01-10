@@ -1,11 +1,12 @@
 # EpluconControl (your heatpump)
 Control Heatpump via pythonscript (re)using capabilities of the Eplucon website
 
-## Background and Introduction
+## Introduction
 
 I am a big fan of using Home Assistant and was quite disappointed about the possibilities to integrate the Ecoforest Heatpump which I own. It is the provider to blame, not Home Assistant.
-Of course you can say you should have thought about it before buying it. And during the procurement I did ask for the possiblities, it was told that you could control temperature with for example Google. In the end yes there was a possiblity to integrate the room controllers, but sadly not the main controller "Th-Touch" which is actually controlling the heatpump.
+Of course you could say you should have done your due dilligence before buying it. And id did some during the procurement when i asked the possiblities, it was told that you could control temperature with for example Google. In the end yes there was a possiblity to integrate seperate room controllers, but sadly not the main controller "Th-Touch" which is actually controlling the heatpump.
 
+## Background
 First I started with scraping the eplucon website - using the nice multiscrape integration - to read information and present it in Home Assistant which enable to ask Google about the current temperature and if the heating was on. For each item i found the html representation on the website and defined a sensor scraping it. Luckily they made an API available which provides the actual information of the heatpump in more structured way. It was a big improvement and more stable as I experienced in the beginning issues when they overhauled the website and could startover again finding the html representation of the values to read. However there was and is still no possbility to control for example the indoor temperature or the mode of the heatpump using the API. I asked for it but without any usable reaction.
 
 The app and the website as offered by the provider could be used to control and that is it. So not fully integrated within my home automation and always in the need to use another app as well without opportunity to do some automations. It should be possible!!!
@@ -16,7 +17,10 @@ Sadly the th-touch controller connected to the heatpump does not provide capabil
 
 The current solution i have is assuming that you have (1) an account on the eplucon website and you're able to control your heatpump and (2) you are allready able to read data and have sensors witin Home Assistant. You need at least to have the indoor temperature and the configured indoor temperature available for the thermostat in Home Assistant. You can use the Ecoforest integration from Koen Hendriks (https://github.com/koenhendriks/ha-eplucon) or using your own implementation of invoking the API as provided by Eplucon (https://portaal.eplucon.nl/docs/api). You can use te multiscrape or rest integration to invoke the API. I am still my own invocation of the API as the Ecoforest integration was not available and it have some issues. Also i wanter to be able to pause it as the API has a service window which then provides a 0 for a minute or 15 which makes the diagrams unreadable.
 
-So i am able to read the data in a nice structured way. The next idea, make an integration for it, however Koen Hendriks allready started this (https://github.com/koenhendriks/ha-eplucon) so no need to work on that. However i still wanted to be able to control the temperature from my Home Assistant.
+So i am now able to read the data in a nice structured way. The next idea, make an native integration for it, however Koen Hendriks allready started this (https://github.com/koenhendriks/ha-eplucon) so no need to work on that.
+
+## Controlling the heatpump
+However i still wanted to be able to control the temperature from my Home Assistant.
 
 Why? Just because it can and should be possible without the use of multiple apps/websites and do repetitive thins manually. Also I experienced that the heatpump finished heating my house in the morning just before waking up. When woke up the floor was allready cooling down. I just wanted to the delay the moment that starts heating during the night and then still runs when waking up. The floor is then still nice comfortly warm.  Now i also use it for other thing like lowering the room temperature when in holiday mode. It turns down production of dometic water and starts just before returning from holiday. 
 
@@ -26,19 +30,21 @@ Altough the script is written in Python is is pending on the Pyscript Python scr
 
 # What can be controlled currently
 
-+ "indoor_temperature", the indoor temperature to achieve
-+ "boiler_temperature", the max temperature of domestic water in the boiler
-+ "boiler_temperature_delta", the delta which determines when the production of domestic water starts
++ "indoor_temperature", the indoor temperature to achieve when cooling or heating
+
++ "heating_active", turn on/off heating the home
++ "stop_heating_above", stop heating when outside temperature above
++ "heating_curve_correction", adjustment of the heat curve (quicker or slower heating)
+ 
 + "warm_water_active", turn on/off the production of warm water
++ "boiler_temperature", the max temperature of domestic water in the boiler
++ "boiler_temperature_delta", the delta which determines when the production of domestic water starts again
+
 + "heatpump_mode", in which mode the heatpump is like cooling or heating
 + "heatpump_operation", in which operation mode the heatpump is like off, 
-+ "heating_active", turn on/off heating the home
-+ "stop_heating_above", the max temperature when heating is done
-+ "heating_curve_correction", adjustment of the heat curve
-+ "cooling_active": turn on/off cooling
-+ "stop_passive_cooling_below": set the temperature when passing cooling stops
-+ "stop_active_cooling_below" set the temperature when active cooling stops
 
++ "cooling_active": turn on/off cooling
++ "stop_passive_cooling_below": stop passive cooling when outside temperature below
 
 # Get it running
 1. Install Pyscript
@@ -167,9 +173,24 @@ actions:
     alias: Update thermostat (change from external)
 mode: single
 ```
+## Other usages 
+Above i described the road which i took to be able to control and integrate my heatpump and provided an example to control the temperature using the thermostat in Home Assistant. Just for ideas without further details i currrently automations 
+
++ Holiday mode, turning of domestic water heating and lowering room temperatures until minimal temperature or a couple of days before returning from holiday
++ Starting heatpump a bit earlier when overcapcity generated electricity and the nearing the temperature where the heatpup would start otherwise.
++ Joker protection, when the temperature is set to a very high temperature it lowers to a maximum. Some friends think hey are funny by putting the temperature to 30 degrees.
++ When overcapacity of electricity and the heatpump is allready running then increase temperature for a while in less rooms like garage, chillroom etc just for buffering.
+
 # Ideas from improvements
 + Better validation on input and the supported domains
 + Better checking on exception and results from the requests to the webserver
 + Having it as a native integration
 + Adding the other attributes (currently focused on the one which i need and i do not have active cooling and a geothermic heatpump)
 + Cleaner code as i am not a python expert
+
+# Disclaimer
+I created this to enable a customer journey using one app/website which is is my Home Assistant. Also it enables automations and make smarter use of the heatpump in the house which may create more comfort and save energy as well. For me it works now. 
+
+Sharing this i do to help other having the same possiblitiy, it is without warranty and it is your own responsibilty to prevent idling your heatpump which may the result when you increase/decrease temperature in automations in short periods.
+
+Have fun with it and if you have improvements for the script or ideas how to use it in automatioms happy to hear this.
