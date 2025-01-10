@@ -32,18 +32,18 @@ Altough the script is written in Python is is pending on the Pyscript Python scr
 
 + "indoor_temperature", the indoor temperature to achieve when cooling or heating
 
-+ "heating_active", turn on/off heating the home
++ "heating_active", enable or disable heating
 + "stop_heating_above", stop heating when outside temperature above
 + "heating_curve_correction", adjustment of the heat curve (quicker or slower heating)
  
-+ "warm_water_active", turn on/off the production of warm water
++ "warm_water_active", enable or disable production of warm water
 + "boiler_temperature", the max temperature of domestic water in the boiler
 + "boiler_temperature_delta", the delta which determines when the production of domestic water starts again
 
 + "heatpump_mode", in which mode the heatpump is like cooling or heating
 + "heatpump_operation", in which operation mode the heatpump is like off, 
 
-+ "cooling_active": turn on/off cooling
++ "cooling_active": enable or disable cooling
 + "stop_passive_cooling_below": stop passive cooling when outside temperature below
 
 # Get it running
