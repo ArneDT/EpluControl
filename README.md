@@ -194,3 +194,4 @@ I created this to enable a customer journey using one app/website which is is my
 By sharing this I hope that others can enjoy it as well. It is without warranty and it is your own responsibilty. 
 
 Have fun with it and if you have improvements for the script or ideas how to make smarter use of the heatpump and Home Assisstan, please share it and/or improve te script.
+And i appreciate if you leave a star at this repository.
