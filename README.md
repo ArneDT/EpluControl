@@ -181,7 +181,7 @@ Above i described the road which i took to be able to control and integrate my h
 + Joker protection, when the temperature is set to a very high temperature it lowers to a maximum. Some friends think hey are funny by putting the temperature to 30 degrees.
 + When overcapacity of electricity and the heatpump is allready running then increase temperature for a while in lesser used rooms like garage, chillroom etc. just for buffering.
 
-# Ideas from improvements
+# Ideas for improvements
 + Better validation on input and the supported domains
 + Better checking on exception and results from the requests to the webserver
 + Having it as a native integration
@@ -193,4 +193,4 @@ I created this to enable a customer journey using one app/website which is is my
 
 Sharing this i do to help other having the same possiblitiy, it is without warranty and it is your own responsibilty to prevent idling your heatpump which may the result when you increase/decrease temperature in automations in short periods.
 
-Have fun with it and if you have improvements for the script or ideas how to use it in automatioms happy to hear this.
+Have fun with it and if you have improvements for the script or ideas how to share it and improve te script.
