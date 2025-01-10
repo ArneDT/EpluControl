@@ -1,4 +1,4 @@
-# EpluconControl (your heatpump)
+# EpluControl (your heatpump)
 Control Heatpump via pythonscript (re)using capabilities of the Eplucon website
 
 ## Introduction
