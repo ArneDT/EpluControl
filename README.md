@@ -174,23 +174,23 @@ actions:
 mode: single
 ```
 ## Other usages 
-Above i described the road which i took to be able to control and integrate my heatpump and provided an example to control the temperature using the thermostat in Home Assistant. Just for ideas without further details i currrently automations 
+Above i described the road which i took to be able to control the heatpump from Home Assistant and provided an example to control the temperature using the thermostat in Home Assistant dahboards. It does not stop there and i continued 
 
-+ Holiday mode, turning of domestic water heating and lowering room temperatures until minimal temperature or a couple of days before returning from holiday
-+ Starting heatpump a bit earlier when overcapcity generated electricity and the nearing the temperature where the heatpup would start otherwise.
-+ Joker protection, when the temperature is set to a very high temperature it lowers to a maximum. Some friends think hey are funny by putting the temperature to 30 degrees.
-+ When overcapacity of electricity and the heatpump is allready running then increase temperature for a while in lesser used rooms like garage, chillroom etc. just for buffering.
++ Having Holiday mode, turning of domestic water heating and lowering room temperatures and a couple of days before ariving enabling it.
++ Delay starting time during the night to ensure that it is running early in the morning
++ Starting heatpump a earlier to use overcapcity of solar energy and nearing the temperature where the heatpump would start otherwise.
++ Joker protection, when the temperature is set to a very high temperature it lowers to a maximum. Some friends think they are funny by putting the temperature to 30 degrees.
++ When overcapacity of electricity and the heatpump is allready running then increase temperature a bit for a while in the rooms which are lesser used like like garage, chillroom etc. just for comfort.
 
 # Ideas for improvements
 + Better validation on input and the supported domains
-+ Better checking on exception and results from the requests to the webserver
-+ Having it as a native integration
-+ Adding the other attributes (currently focused on the one which i need and i do not have active cooling and a geothermic heatpump)
-+ Cleaner code as i am not a python expert
++ Better checking on exceptions and results from the requests to the webserver
++ Having it as a native integration (combined with the reading)
++ Adding the other attributes (currently focused on the ones which I need)
++ Cleaner code as i am not a python expert. I did it with some youtube and google.
 
 # Disclaimer
-I created this to enable a customer journey using one app/website which is is my Home Assistant. Also it enables automations and make smarter use of the heatpump in my house improving comfort and may save energy as well. For me it works now. 
+I created this to enable a customer journey using one app/website which is is my Home Assistant. Also it enables me to make smarter use of the heatpump to create more comfrt and/or use energy more efficient. For me it works for now. 
+By sharing this I hope that others can enjoy it as well. It is without warranty and it is your own responsibilty. 
 
-Sharing this I do to help other having the same possiblitiy, it is without warranty and it is your own responsibilty to prevent idling your heatpump which may the result when you increase/decrease temperature in automations in short periods.
-
-Have fun with it and if you have improvements for the script or ideas how to share it and improve te script.
+Have fun with it and if you have improvements for the script or ideas how to make smarter use of the heatpump and Home Assisstan, please share it and/or improve te script.
