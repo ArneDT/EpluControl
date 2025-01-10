@@ -179,7 +179,7 @@ Above i described the road which i took to be able to control and integrate my h
 + Holiday mode, turning of domestic water heating and lowering room temperatures until minimal temperature or a couple of days before returning from holiday
 + Starting heatpump a bit earlier when overcapcity generated electricity and the nearing the temperature where the heatpup would start otherwise.
 + Joker protection, when the temperature is set to a very high temperature it lowers to a maximum. Some friends think hey are funny by putting the temperature to 30 degrees.
-+ When overcapacity of electricity and the heatpump is allready running then increase temperature for a while in less rooms like garage, chillroom etc just for buffering.
++ When overcapacity of electricity and the heatpump is allready running then increase temperature for a while in lesser used rooms like garage, chillroom etc. just for buffering.
 
 # Ideas from improvements
 + Better validation on input and the supported domains
