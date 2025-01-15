@@ -63,7 +63,7 @@ If all went OK the script is available as an action within Home Assisstant and c
 
 ![image](https://github.com/user-attachments/assets/37ef6b16-1a98-49f3-9d7d-aff8b54f9dc9)
 
-When selecting the action in the Developer Tools it shows which parameters are expected. Sadly i could not find a easy way to add username, password and index as a secret in YAML. So for now it expected as parameters. Of course you can add them as default in the python script. Or define helpers in Home Assistant and use them in your automations.
+When selecting the action in the Developer Tools it shows which parameters are expected. Sadly i could not find a easy way to add username, password and index as a secret in YAML. So for now they are expected as parameters. Of course you can add them as default in the python script. Or define helpers in Home Assistant and use them in your automations.
 
 To be able to run the script and control your heatpump you need to use the same account which you use to login on the eplucon site and also know the module_index referring to the heatpump. 
 
